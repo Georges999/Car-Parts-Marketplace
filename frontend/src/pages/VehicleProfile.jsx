@@ -112,7 +112,7 @@ const VehicleProfile = () => {
   };
 
   const handleDeleteVehicle = (id) => {
-    // In a real app, you would send a delete request to your API
+    
     const confirmed = window.confirm('Are you sure you want to remove this vehicle?');
     if (confirmed) {
       setVehicles(vehicles.filter(vehicle => vehicle.id !== id));
