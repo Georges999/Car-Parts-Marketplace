@@ -16,7 +16,6 @@ exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // Check if user exists
     let user = await User.findOne({ email });
 
     if (user) {
@@ -25,15 +24,12 @@ exports.registerUser = async (req, res) => {
         message: 'User already exists'
       });
     }
-
-    // Create new user
     user = await User.create({
       name,
       email,
       password
     });
 
-    // Generate JWT token
     const token = generateToken(user._id);
 
     res.status(201).json({
@@ -48,8 +44,6 @@ exports.registerUser = async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    
-    // Return specific error messages for common issues
     if (error.name === 'ValidationError') {
       return res.status(400).json({
         success: false,
@@ -85,7 +79,6 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if user exists
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
@@ -95,7 +88,6 @@ exports.loginUser = async (req, res) => {
       });
     }
 
-    // Check if password matches
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {

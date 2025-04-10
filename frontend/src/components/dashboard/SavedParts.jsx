@@ -35,8 +35,6 @@ const SavedParts = () => {
       setLoading(false);
     }
   };
-  
-  // For demo purposes, let's create some dummy saved parts
   useEffect(() => {
     if (!loading && savedParts.length === 0 && !error) {
       setSavedParts([
@@ -84,7 +82,6 @@ const SavedParts = () => {
       });
 
       if (response.ok) {
-        // Remove from the state
         setSavedParts(savedParts.filter(part => part.id !== partId));
       } else {
         const data = await response.json();

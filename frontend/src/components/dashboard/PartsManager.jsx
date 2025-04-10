@@ -77,17 +77,17 @@ const PartsManager = () => {
     try {
       let response;
       
-      // Add image handling using FormData if needed
+
       const formData = new FormData();
       
-      // Append part data
+   
       Object.keys(partData).forEach(key => {
         if (key !== 'images') {
           formData.append(key, partData[key]);
         }
       });
       
-      // Append images if any
+    
       if (partData.images && partData.images.length) {
         for (let i = 0; i < partData.images.length; i++) {
           formData.append('images', partData.images[i]);

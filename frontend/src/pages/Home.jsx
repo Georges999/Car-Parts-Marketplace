@@ -10,10 +10,9 @@ const Home = () => {
     year: '',
   });
 
-  // Popular car makes for the quick selector
+
   const popularMakes = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'BMW', 'Mercedes', 'Audi', 'Nissan'];
   
-  // Featured parts data (would come from API in real implementation)
   const featuredParts = [
     {
       id: '1',
@@ -53,7 +52,6 @@ const Home = () => {
     }
   ];
 
-  // Categories with icons and part counts
   const categories = [
     { name: 'Engine', icon: '🔧', count: 1240 },
     { name: 'Brakes', icon: '🛑', count: 856 },
@@ -65,13 +63,13 @@ const Home = () => {
     { name: 'Interior', icon: '💺', count: 1050 }
   ];
 
-  // Handle form submission for advanced search
+
   const handleSearch = (e) => {
     e.preventDefault();
     navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
   };
 
-  // Handle vehicle finder form submission
+
   const handleVehicleSearch = (e) => {
     e.preventDefault();
     navigate(`/search?make=${vehicleData.make}&model=${vehicleData.model}&year=${vehicleData.year}`);
@@ -79,7 +77,6 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero Section with Search */}
       <section className="hero-section">
         <div className="hero-content">
           <h1>Find the Right Parts for Your Vehicle</h1>
@@ -107,7 +104,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Vehicle Selector */}
       <section className="vehicle-selector-section">
         <div className="container">
           <div className="section-header">
@@ -155,7 +151,7 @@ const Home = () => {
                       <option value="Highlander">Highlander</option>
                     </>
                   )}
-                  {/* Add options for other makes as well */}
+        
                 </select>
               </div>
 
@@ -198,7 +194,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Parts Carousel */}
+
       <section className="featured-parts-section">
         <div className="container">
           <div className="section-header">
@@ -231,7 +227,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Browse by Category */}
+  
       <section className="categories-section">
         <div className="container">
           <div className="section-header">
@@ -250,7 +246,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* How It Works Section */}
       <section className="how-it-works-section">
         <div className="container">
           <div className="section-header">
@@ -286,7 +281,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Trust Indicators */}
       <section className="trust-section">
         <div className="container">
           <div className="trust-indicators">

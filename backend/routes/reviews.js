@@ -23,7 +23,6 @@ router.route('/:id')
   )
   .delete(deleteReview);
 
-// Mark review as helpful
 router.put('/:id/helpful', markHelpful);
 
 module.exports = router;

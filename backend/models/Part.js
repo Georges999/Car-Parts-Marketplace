@@ -92,15 +92,12 @@ const PartSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
-// Virtual for part's reviews
 PartSchema.virtual('reviews', {
   ref: 'Review',
   localField: '_id',
   foreignField: 'part',
   justOne: false
 });
-
-// Add indexes for searching
 PartSchema.index({ name: 'text', description: 'text' });
 
 module.exports = mongoose.model('Part', PartSchema);

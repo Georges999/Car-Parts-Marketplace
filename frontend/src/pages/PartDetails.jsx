@@ -15,15 +15,14 @@ const PartDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSeller, setSelectedSeller] = useState(null);
 
-  // Fetch part details and user vehicles on component mount
+  
   useEffect(() => {
-    // In a real app, we would fetch the part data from an API
+   
     const fetchPartDetails = async () => {
       setLoading(true);
       
-      // Simulate API call
       setTimeout(() => {
-        // This is mock data - in a real app this would come from your backend
+
         const mockPart = {
           id: partId,
           name: 'Premium Ceramic Brake Pads',
@@ -216,7 +215,7 @@ const PartDetails = () => {
     };
 
     const fetchUserVehicles = () => {
-      // In a real app, you would fetch from your API
+
       if (isAuthenticated) {
         const mockVehicles = [
           {
@@ -250,13 +249,13 @@ const PartDetails = () => {
   };
 
   const handleAddToCart = () => {
-    // In a real app, this would add the item to a cart
+
     console.log(`Added ${quantity} ${part.name} from ${selectedSeller.name} to cart`);
-    // Could navigate to cart or show a confirmation
+   
   };
 
   const handleBuyNow = () => {
-    // In a real app, this would add the item to cart and redirect to checkout
+   
     console.log(`Buying ${quantity} ${part.name} from ${selectedSeller.name}`);
     navigate('/checkout');
   };
@@ -295,7 +294,7 @@ const PartDetails = () => {
         </div>
 
         <div className="part-details-wrapper">
-          {/* Gallery and main info section */}
+
           <div className="part-main">
             <div className="part-gallery">
               <div className="main-image">
@@ -339,7 +338,6 @@ const PartDetails = () => {
                 </div>
               </div>
 
-              {/* Vehicle compatibility section */}
               {isAuthenticated && userVehicles.length > 0 && (
                 <div className="part-compatibility">
                   <h3>Compatibility with Your Vehicles</h3>
@@ -375,7 +373,6 @@ const PartDetails = () => {
                 </div>
               )}
 
-              {/* Seller selection */}
               <div className="seller-options">
                 <h3>Available From</h3>
                 <div className="sellers-list">
@@ -409,7 +406,6 @@ const PartDetails = () => {
                 </div>
               </div>
 
-              {/* Purchase section */}
               <div className="purchase-section">
                 <div className="price-display">
                   <div className="current-price">${selectedSeller?.price.toFixed(2)}</div>
@@ -473,7 +469,6 @@ const PartDetails = () => {
                 </div>
               </div>
 
-              {/* Installation info */}
               <div className="installation-info">
                 <div className="info-item">
                   <span className="info-icon">🔧</span>
@@ -493,7 +488,6 @@ const PartDetails = () => {
             </div>
           </div>
 
-          {/* Tabs for additional information */}
           <div className="part-details-tabs">
             <div className="tabs-header">
               <button 
@@ -535,7 +529,6 @@ const PartDetails = () => {
             </div>
             
             <div className="tab-content">
-              {/* Description & Features Tab */}
               {activeTab === 'description' && (
                 <div className="tab-pane" id="description">
                   <div className="description-content">
@@ -552,7 +545,6 @@ const PartDetails = () => {
                 </div>
               )}
 
-              {/* Specifications Tab */}
               {activeTab === 'specs' && (
                 <div className="tab-pane" id="specs">
                   <div className="specs-content">
@@ -571,7 +563,6 @@ const PartDetails = () => {
                 </div>
               )}
 
-              {/* Compatibility Tab */}
               {activeTab === 'compatibility' && (
                 <div className="tab-pane" id="compatibility">
                   <div className="compatibility-content">
@@ -608,7 +599,6 @@ const PartDetails = () => {
                 </div>
               )}
 
-              {/* Mechanic Tips Tab */}
               {activeTab === 'mechanic-tips' && (
                 <div className="tab-pane" id="mechanic-tips">
                   <div className="mechanic-tips-content">
@@ -650,7 +640,6 @@ const PartDetails = () => {
                 </div>
               )}
 
-              {/* Reviews Tab */}
               {activeTab === 'reviews' && (
                 <div className="tab-pane" id="reviews">
                   <div className="reviews-content">
@@ -705,7 +694,6 @@ const PartDetails = () => {
                 </div>
               )}
 
-              {/* Q&A Tab */}
               {activeTab === 'questions' && (
                 <div className="tab-pane" id="questions">
                   <div className="questions-content">
@@ -745,8 +733,7 @@ const PartDetails = () => {
               )}
             </div>
           </div>
-
-          {/* Related Parts Section */}
+          
           <div className="related-parts-section">
             <h3>Frequently Bought Together</h3>
             <div className="related-parts-grid">

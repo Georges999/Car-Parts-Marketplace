@@ -9,7 +9,6 @@ const Part = require('../models/Part');
  */
 exports.getReviews = async (req, res) => {
   try {
-    // For development purposes, returning dummy data
     res.status(200).json({
       success: true,
       count: 2,
@@ -59,7 +58,6 @@ exports.addReview = async (req, res) => {
   }
   
   try {
-    // Check if part exists
     const part = await Part.findById(req.params.partId);
     
     if (!part) {
@@ -69,7 +67,6 @@ exports.addReview = async (req, res) => {
       });
     }
     
-    // Check if user already reviewed this part
     const existingReview = await Review.findOne({
       user: req.user.id,
       part: req.params.partId
@@ -123,7 +120,6 @@ exports.updateReview = async (req, res) => {
       });
     }
     
-    // Make sure user owns the review
     if (review.user.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
@@ -164,8 +160,6 @@ exports.deleteReview = async (req, res) => {
         message: 'Review not found'
       });
     }
-    
-    // Make sure user owns the review
     if (review.user.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
@@ -204,19 +198,16 @@ exports.markHelpful = async (req, res) => {
       });
     }
     
-    // Check if user has already marked review as helpful
     const alreadyMarked = review.helpful.users.some(
       userId => userId.toString() === req.user.id
     );
     
     if (alreadyMarked) {
-      // Remove user from helpful users array
       review.helpful.users = review.helpful.users.filter(
         userId => userId.toString() !== req.user.id
       );
       review.helpful.count -= 1;
     } else {
-      // Add user to helpful users array
       review.helpful.users.push(req.user.id);
       review.helpful.count += 1;
     }

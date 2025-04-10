@@ -6,7 +6,6 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB Connected'))
   .catch(err => {
     console.error('MongoDB Connection Error:', err.message);
-    // Continue even if MongoDB fails - this makes testing easier
   });
 
 // Start server

@@ -36,7 +36,6 @@ const Reviews = () => {
     }
   };
   
-  // For demo purposes, let's create some dummy reviews
   useEffect(() => {
     if (!loading && reviews.length === 0 && !error) {
       setReviews([

@@ -14,7 +14,6 @@ const VehicleForm = ({ vehicle, onSubmit, onCancel }) => {
   const [errors, setErrors] = useState({});
   const currentYear = new Date().getFullYear();
   
-  // Initialize form with vehicle data if in edit mode
   useEffect(() => {
     if (vehicle) {
       setFormData({
@@ -47,7 +46,6 @@ const VehicleForm = ({ vehicle, onSubmit, onCancel }) => {
       [name]: value
     });
     
-    // Clear error for this field if any
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -64,7 +62,6 @@ const VehicleForm = ({ vehicle, onSubmit, onCancel }) => {
     }
   };
 
-  // Generate year options from 1900 to current year + 1
   const yearOptions = [];
   for (let year = currentYear + 1; year >= 1900; year--) {
     yearOptions.push(year);

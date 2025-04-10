@@ -78,7 +78,7 @@ const VehicleManager = () => {
       let response;
       
       if (editingVehicle) {
-        // Update existing vehicle
+        //updRWTE VEHICLE EXISTING
         response = await fetch(`/api/vehicles/${editingVehicle.id}`, {
           method: 'PUT',
           headers: {

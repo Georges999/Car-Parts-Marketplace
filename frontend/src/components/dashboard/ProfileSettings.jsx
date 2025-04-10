@@ -97,7 +97,7 @@ const ProfileSettings = () => {
       
       if (response.ok) {
         setMessage({ type: 'success', content: 'Profile updated successfully' });
-        // Update local storage with new user info
+      
         const currentUser = JSON.parse(localStorage.getItem('user'));
         localStorage.setItem('user', JSON.stringify({
           ...currentUser,
@@ -158,7 +158,7 @@ const ProfileSettings = () => {
   };
 
   const handleSaveNotifications = () => {
-    // Here you would typically save notification preferences to the backend
+  
     setMessage({ type: 'success', content: 'Notification preferences saved' });
   };
 

@@ -49,7 +49,6 @@ exports.getParts = async (req, res) => {
       };
     }
     
-    // For now, just return dummy data to help with frontend development
     res.status(200).json({
       success: true,
       count: 2,
@@ -88,7 +87,6 @@ exports.getParts = async (req, res) => {
  */
 exports.getPart = async (req, res) => {
   try {
-    // For now, return dummy data
     res.status(200).json({
       success: true,
       data: {
@@ -164,7 +162,6 @@ exports.updatePart = async (req, res) => {
       });
     }
     
-    // Make sure user is the seller
     if (part.seller.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
@@ -206,7 +203,6 @@ exports.deletePart = async (req, res) => {
       });
     }
     
-    // Make sure user is the seller
     if (part.seller.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
@@ -236,7 +232,6 @@ exports.deletePart = async (req, res) => {
  */
 exports.getCategories = async (req, res) => {
   try {
-    // Return dummy data for now
     res.status(200).json({
       success: true,
       data: ['Brakes', 'Filters', 'Suspension', 'Electrical', 'Engine']
@@ -257,7 +252,6 @@ exports.getCategories = async (req, res) => {
  */
 exports.getBrands = async (req, res) => {
   try {
-    // Return dummy data for now
     res.status(200).json({
       success: true,
       data: ['Bosch', 'Akebono', 'Denso', 'NGK', 'AC Delco']

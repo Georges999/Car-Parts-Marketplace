@@ -32,13 +32,13 @@ const Checkout = () => {
   });
 
   useEffect(() => {
-    // Redirect to login if not authenticated
+    
     if (!isAuthenticated) {
       navigate('/login', { state: { from: { pathname: '/checkout' } } });
       return;
     }
     
-    // Load cart data
+
     fetchCart();
   }, [isAuthenticated, navigate]);
 
@@ -46,8 +46,6 @@ const Checkout = () => {
     try {
       setLoading(true);
       
-      // This would normally be an API call to get the cart
-      // For now, we'll use mock data
       const mockCart = [
         {
           id: '1',
@@ -104,11 +102,11 @@ const Checkout = () => {
   };
   
   const calculateTax = () => {
-    return calculateSubtotal() * 0.07; // Assuming 7% tax rate
+    return calculateSubtotal() * 0.07;
   };
   
   const calculateShipping = () => {
-    return calculateSubtotal() > 50 ? 0 : 5.99; // Free shipping over $50
+    return calculateSubtotal() > 50 ? 0 : 5.99; 
   };
   
   const calculateTotal = () => {
@@ -118,9 +116,6 @@ const Checkout = () => {
   const handlePlaceOrder = async () => {
     try {
       setLoading(true);
-      
-      // This would be an API call to create the order
-      // For demonstration purposes, we'll simulate a successful order
       setTimeout(() => {
         setOrderPlaced(true);
         setOrderId('ORD-' + Math.floor(100000 + Math.random() * 900000));
@@ -276,7 +271,7 @@ const Checkout = () => {
                             >-</button>
                             <span>{item.quantity}</span>
                             <button className="quantity-btn"
-                              onClick={() => {/* Increase quantity logic */}}
+                              onClick={() => {/* Increase quantiy logic */}}
                             >+</button>
                           </div>
                         </div>

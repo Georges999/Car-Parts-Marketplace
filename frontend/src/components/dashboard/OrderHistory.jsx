@@ -34,8 +34,7 @@ const OrderHistory = () => {
       setLoading(false);
     }
   };
-  
-  // For demo purposes, let's create some dummy orders
+
   useEffect(() => {
     if (!loading && orders.length === 0 && !error) {
       setOrders([
