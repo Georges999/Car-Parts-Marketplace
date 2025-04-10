@@ -79,11 +79,11 @@ const VehicleProfile = () => {
   const handleAddVehicle = (e) => {
     e.preventDefault();
     
-    // In a real app, you would send this to your API
+    
     const newVehicle = {
-      id: `v${Date.now()}`, // This would be assigned by the backend
+      id: `v${Date.now()}`, 
       ...formData,
-      // Use a placeholder image based on make
+     
       image: `/assets/${formData.make.toLowerCase()}-placeholder.jpg`
     };
     
