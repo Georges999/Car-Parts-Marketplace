@@ -1,7 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Header from './components/layout/Header';
+import Header from './components/layout/header.jsx';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import VehicleProfile from './pages/VehicleProfile';
