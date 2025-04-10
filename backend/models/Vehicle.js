@@ -1,52 +1,51 @@
-const express = require('express');
-const router = express.Router();
+const mongoose = require('mongoose');
 
-// Get all vehicles (placeholder)
-router.get('/', (req, res) => {
-  res.json({
-    success: true,
-    data: [
-      {
-        id: '1',
-        make: 'Toyota',
-        model: 'Camry',
-        year: 2020,
-        trim: 'SE',
-        engine: '2.5L 4-cylinder'
-      },
-      {
-        id: '2',
-        make: 'Honda',
-        model: 'Civic',
-        year: 2019,
-        trim: 'Sport',
-        engine: '1.5L Turbo'
-      }
-    ]
-  });
+const VehicleSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  make: {
+    type: String,
+    required: [true, 'Please provide the vehicle make'],
+    trim: true
+  },
+  model: {
+    type: String,
+    required: [true, 'Please provide the vehicle model'],
+    trim: true
+  },
+  year: {
+    type: Number,
+    required: [true, 'Please provide the vehicle year'],
+    min: 1900,
+    max: new Date().getFullYear() + 1
+  },
+  trim: {
+    type: String,
+    trim: true
+  },
+  engine: {
+    type: String,
+    trim: true
+  },
+  transmission: {
+    type: String,
+    enum: ['Automatic', 'Manual', 'CVT', 'DCT', 'Other', '']
+  },
+  modifications: {
+    type: String,
+    trim: true
+  },
+  notes: {
+    type: String,
+    trim: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-// Other vehicle routes
-router.post('/', (req, res) => {
-  res.json({
-    success: true,
-    data: {
-      id: '3',
-      ...req.body
-    }
-  });
-});
-
-router.get('/:id', (req, res) => {
-  res.json({
-    success: true,
-    data: {
-      id: req.params.id,
-      make: 'Toyota',
-      model: 'Camry',
-      year: 2020
-    }
-  });
-});
-
-module.exports = router;
+module.exports = mongoose.model('Vehicle', VehicleSchema);

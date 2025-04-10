@@ -45,7 +45,8 @@ export function AuthProvider({ children }) {
 
   const register = async (userData) => {
     try {
-      // This would be replaced with an actual API call
+      console.log("Sending registration data:", userData); // Add logging
+      
       const response = await fetch('/api/users/register', {
         method: 'POST',
         headers: {
@@ -53,9 +54,10 @@ export function AuthProvider({ children }) {
         },
         body: JSON.stringify(userData),
       });
-
+      
       const data = await response.json();
-
+      console.log("Registration response:", data); // Add logging
+      
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
@@ -65,7 +67,8 @@ export function AuthProvider({ children }) {
         return { success: false, message: data.message || 'Registration failed' };
       }
     } catch (error) {
-      return { success: false, message: 'Network error' };
+      console.error("Registration error:", error);
+      return { success: false, message: 'Network error: ' + error.message };
     }
   };
 

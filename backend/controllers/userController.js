@@ -47,10 +47,26 @@ exports.registerUser = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error(error);
+    console.error('Registration error:', error);
+    
+    // Return specific error messages for common issues
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: Object.values(error.errors).map(val => val.message).join(', ')
+      });
+    }
+    
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email already exists. Please use a different email address.'
+      });
+    }
+    
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };

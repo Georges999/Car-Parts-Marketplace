@@ -1,53 +1,106 @@
-const express = require('express');
-const router = express.Router();
+const mongoose = require('mongoose');
 
-// Get all parts (placeholder)
-router.get('/', (req, res) => {
-  res.json({
-    success: true,
-    count: 2,
-    data: [
-      {
-        id: '1',
-        name: 'Brake Pads',
-        description: 'High-performance brake pads for all weather conditions',
-        price: 39.99,
-        brand: 'Akebono',
-        category: 'Brakes'
-      },
-      {
-        id: '2',
-        name: 'Oil Filter',
-        description: 'Premium oil filter with superior filtration',
-        price: 12.99,
-        brand: 'Bosch',
-        category: 'Filters'
-      }
-    ]
-  });
-});
+const CompatibilitySchema = new mongoose.Schema({
+  make: String,
+  model: String,
+  yearStart: Number,
+  yearEnd: Number,
+  trim: String,
+  engine: String
+}, { _id: false });
 
-// Get single part
-router.get('/:id', (req, res) => {
-  res.json({
-    success: true,
-    data: {
-      id: req.params.id,
-      name: 'Brake Pads',
-      description: 'High-performance brake pads for all weather conditions',
-      price: 39.99,
-      brand: 'Akebono',
-      category: 'Brakes',
-      compatibility: [
-        {
-          make: 'Toyota',
-          model: 'Camry',
-          yearStart: 2018,
-          yearEnd: 2022
-        }
-      ]
+const PartSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Please provide a part name'],
+    trim: true,
+    index: true
+  },
+  description: {
+    type: String,
+    required: [true, 'Please provide a description']
+  },
+  category: {
+    type: String,
+    required: [true, 'Please provide a category'],
+    index: true
+  },
+  subcategory: {
+    type: String,
+    index: true
+  },
+  brand: {
+    type: String,
+    required: [true, 'Please provide a brand name'],
+    index: true
+  },
+  partNumber: {
+    type: String,
+    required: [true, 'Please provide a part number'],
+    unique: true
+  },
+  price: {
+    type: Number,
+    required: [true, 'Please provide a price']
+  },
+  retailPrice: {
+    type: Number
+  },
+  images: [String],
+  compatibility: [CompatibilitySchema],
+  specifications: {
+    type: Map,
+    of: String
+  },
+  weight: {
+    value: Number,
+    unit: {
+      type: String,
+      enum: ['kg', 'lbs'],
+      default: 'lbs'
     }
-  });
+  },
+  dimensions: {
+    length: Number,
+    width: Number,
+    height: Number,
+    unit: {
+      type: String,
+      enum: ['in', 'cm'],
+      default: 'in'
+    }
+  },
+  inStock: {
+    type: Boolean,
+    default: true
+  },
+  stockQuantity: {
+    type: Number,
+    default: 0
+  },
+  seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
-module.exports = router;
+// Virtual for part's reviews
+PartSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'part',
+  justOne: false
+});
+
+// Add indexes for searching
+PartSchema.index({ name: 'text', description: 'text' });
+
+module.exports = mongoose.model('Part', PartSchema);

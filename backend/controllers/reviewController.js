@@ -9,20 +9,40 @@ const Part = require('../models/Part');
  */
 exports.getReviews = async (req, res) => {
   try {
-    const reviews = await Review.find({ part: req.params.partId })
-      .populate('user', 'name')
-      .populate('vehicle', 'make model year');
-    
+    // For development purposes, returning dummy data
     res.status(200).json({
       success: true,
-      count: reviews.length,
-      data: reviews
+      count: 2,
+      data: [
+        {
+          id: '1',
+          rating: 5,
+          title: 'Great product',
+          comment: 'These brake pads are amazing. Easy installation and great stopping power.',
+          user: {
+            id: '101',
+            name: 'John D.'
+          },
+          createdAt: '2023-04-15'
+        },
+        {
+          id: '2',
+          rating: 4,
+          title: 'Good quality',
+          comment: 'Solid brake pads, but installation was a bit tricky.',
+          user: {
+            id: '102',
+            name: 'Sarah M.'
+          },
+          createdAt: '2023-04-10'
+        }
+      ]
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -69,14 +89,6 @@ exports.addReview = async (req, res) => {
       part: req.params.partId
     });
     
-    // Populate user info
-    await review.populate('user', 'name');
-    
-    // If vehicle ID is provided, populate vehicle info
-    if (req.body.vehicle) {
-      await review.populate('vehicle', 'make model year');
-    }
-    
     res.status(201).json({
       success: true,
       data: review
@@ -85,7 +97,7 @@ exports.addReview = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -119,11 +131,10 @@ exports.updateReview = async (req, res) => {
       });
     }
     
-    // Update review
     review = await Review.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
-    }).populate('user', 'name').populate('vehicle', 'make model year');
+    });
     
     res.status(200).json({
       success: true,
@@ -133,7 +144,7 @@ exports.updateReview = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -172,7 +183,7 @@ exports.deleteReview = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -223,7 +234,7 @@ exports.markHelpful = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };

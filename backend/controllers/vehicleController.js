@@ -8,17 +8,34 @@ const Vehicle = require('../models/Vehicle');
  */
 exports.getUserVehicles = async (req, res) => {
   try {
-    const vehicles = await Vehicle.find({ user: req.user.id });
+    // For development purposes, return dummy data
     res.status(200).json({
       success: true,
-      count: vehicles.length,
-      data: vehicles
+      count: 2,
+      data: [
+        {
+          id: '1',
+          make: 'Toyota',
+          model: 'Camry',
+          year: 2020,
+          trim: 'SE',
+          engine: '2.5L 4-cylinder'
+        },
+        {
+          id: '2',
+          make: 'Honda',
+          model: 'Civic',
+          year: 2019,
+          trim: 'Sport',
+          engine: '1.5L Turbo'
+        }
+      ]
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -30,32 +47,24 @@ exports.getUserVehicles = async (req, res) => {
  */
 exports.getVehicle = async (req, res) => {
   try {
-    const vehicle = await Vehicle.findById(req.params.id);
-
-    if (!vehicle) {
-      return res.status(404).json({
-        success: false,
-        message: 'Vehicle not found'
-      });
-    }
-
-    // Make sure user owns vehicle
-    if (vehicle.user.toString() !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: 'User not authorized to access this vehicle'
-      });
-    }
-
+    // For development, return dummy data
     res.status(200).json({
       success: true,
-      data: vehicle
+      data: {
+        id: req.params.id,
+        make: 'Toyota',
+        model: 'Camry',
+        year: 2020,
+        trim: 'SE',
+        engine: '2.5L 4-cylinder',
+        transmission: 'Automatic'
+      }
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -86,7 +95,7 @@ exports.createVehicle = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -128,7 +137,7 @@ exports.updateVehicle = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -167,7 +176,7 @@ exports.deleteVehicle = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };

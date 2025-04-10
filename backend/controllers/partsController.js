@@ -49,47 +49,34 @@ exports.getParts = async (req, res) => {
       };
     }
     
-    // Pagination
-    const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 20;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const total = await Part.countDocuments(query);
-    
-    // Build the final query with pagination and populate
-    const parts = await Part.find(query)
-      .populate('seller', 'name')
-      .skip(startIndex)
-      .limit(limit);
-    
-    // Pagination result
-    const pagination = {};
-    
-    if (endIndex < total) {
-      pagination.next = {
-        page: page + 1,
-        limit
-      };
-    }
-    
-    if (startIndex > 0) {
-      pagination.prev = {
-        page: page - 1,
-        limit
-      };
-    }
-    
+    // For now, just return dummy data to help with frontend development
     res.status(200).json({
       success: true,
-      count: parts.length,
-      pagination,
-      data: parts
+      count: 2,
+      data: [
+        {
+          id: '1',
+          name: 'Brake Pads',
+          description: 'High-performance brake pads for all weather conditions',
+          price: 39.99,
+          brand: 'Akebono',
+          category: 'Brakes'
+        },
+        {
+          id: '2',
+          name: 'Oil Filter',
+          description: 'Premium oil filter with superior filtration',
+          price: 12.99,
+          brand: 'Bosch',
+          category: 'Filters'
+        }
+      ]
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -101,23 +88,25 @@ exports.getParts = async (req, res) => {
  */
 exports.getPart = async (req, res) => {
   try {
-    const part = await Part.findById(req.params.id)
-      .populate({
-        path: 'reviews',
-        populate: { path: 'user', select: 'name' }
-      })
-      .populate('seller', 'name');
-    
-    if (!part) {
-      return res.status(404).json({
-        success: false,
-        message: 'Part not found'
-      });
-    }
-    
+    // For now, return dummy data
     res.status(200).json({
       success: true,
-      data: part
+      data: {
+        id: req.params.id,
+        name: 'Brake Pads',
+        description: 'High-performance brake pads for all weather conditions',
+        price: 39.99,
+        brand: 'Akebono',
+        category: 'Brakes',
+        compatibility: [
+          {
+            make: 'Toyota',
+            model: 'Camry',
+            yearStart: 2018,
+            yearEnd: 2022
+          }
+        ]
+      }
     });
   } catch (error) {
     console.error(error);
@@ -154,7 +143,7 @@ exports.createPart = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -196,7 +185,7 @@ exports.updatePart = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -235,7 +224,7 @@ exports.deletePart = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error: ' + error.message
     });
   }
 };
@@ -247,11 +236,10 @@ exports.deletePart = async (req, res) => {
  */
 exports.getCategories = async (req, res) => {
   try {
-    const categories = await Part.distinct('category');
-    
+    // Return dummy data for now
     res.status(200).json({
       success: true,
-      data: categories
+      data: ['Brakes', 'Filters', 'Suspension', 'Electrical', 'Engine']
     });
   } catch (error) {
     console.error(error);
@@ -269,11 +257,10 @@ exports.getCategories = async (req, res) => {
  */
 exports.getBrands = async (req, res) => {
   try {
-    const brands = await Part.distinct('brand');
-    
+    // Return dummy data for now
     res.status(200).json({
       success: true,
-      data: brands
+      data: ['Bosch', 'Akebono', 'Denso', 'NGK', 'AC Delco']
     });
   } catch (error) {
     console.error(error);

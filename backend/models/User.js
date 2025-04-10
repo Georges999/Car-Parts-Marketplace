@@ -1,42 +1,52 @@
-const express = require('express');
-const router = express.Router();
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-// Simple routes for testing
-router.post('/register', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'User registered successfully',
-    token: 'sample-token',
-    user: {
-      id: '123',
-      name: req.body.name || 'Test User',
-      email: req.body.email || 'test@example.com'
-    }
-  });
+const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Please provide a name'],
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: [true, 'Please provide an email'],
+    unique: true,
+    lowercase: true,
+    match: [
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+      'Please provide a valid email'
+    ],
+  },
+  password: {
+    type: String,
+    required: [true, 'Please provide a password'],
+    minlength: 6,
+    select: false,
+  },
+  role: {
+    type: String,
+    enum: ['user', 'seller', 'admin'],
+    default: 'user',
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-router.post('/login', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'User logged in successfully',
-    token: 'sample-token',
-    user: {
-      id: '123',
-      name: 'Test User',
-      email: req.body.email
-    }
-  });
+// Encrypt password before saving
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
-router.get('/profile', (req, res) => {
-  res.json({ 
-    success: true,
-    user: {
-      id: '123',
-      name: 'Test User',
-      email: 'test@example.com'
-    }
-  });
-});
+// Match user entered password to hashed password in database
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
-module.exports = router;
+module.exports = mongoose.model('User', UserSchema);

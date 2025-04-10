@@ -1,36 +1,58 @@
-const express = require('express');
-const router = express.Router();
+const mongoose = require('mongoose');
 
-// Get reviews for a part
-router.get('/', (req, res) => {
-  res.json({
-    success: true,
-    count: 2,
-    data: [
+const ReviewSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  part: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Part',
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: [true, 'Please provide a rating'],
+    min: 1,
+    max: 5
+  },
+  title: {
+    type: String,
+    required: [true, 'Please provide a review title'],
+    trim: true
+  },
+  comment: {
+    type: String,
+    required: [true, 'Please provide a review comment']
+  },
+  vehicle: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Vehicle'
+  },
+  verified: {
+    type: Boolean,
+    default: false
+  },
+  helpful: {
+    count: {
+      type: Number,
+      default: 0
+    },
+    users: [
       {
-        id: '1',
-        rating: 5,
-        title: 'Great product',
-        comment: 'These brake pads are amazing. Easy installation and great stopping power.',
-        user: {
-          id: '101',
-          name: 'John D.'
-        },
-        createdAt: '2023-04-15'
-      },
-      {
-        id: '2',
-        rating: 4,
-        title: 'Good quality',
-        comment: 'Solid brake pads, but installation was a bit tricky.',
-        user: {
-          id: '102',
-          name: 'Sarah M.'
-        },
-        createdAt: '2023-04-10'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
       }
     ]
-  });
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-module.exports = router;
+// Prevent user from submitting more than one review per part
+ReviewSchema.index({ part: 1, user: 1 }, { unique: true });
+
+module.exports = mongoose.model('Review', ReviewSchema);
